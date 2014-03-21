@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='django-stats',
+    name='django-stats-report',
     version='0.0.1beta',
     author='Vialink',
     author_email='vialink@vialink.com.br',
