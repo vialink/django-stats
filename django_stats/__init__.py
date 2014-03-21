@@ -1,5 +1,8 @@
 # coding: utf-8
 
+from .parsers import LogLine
+from .processors import RequestByViewProcessor
+
 def parselog(filename):
     fp = file(filename, 'r')
     p1 = RequestByViewProcessor()

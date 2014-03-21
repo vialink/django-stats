@@ -1,2 +1,4 @@
 *.pyc
 *.swp
+
+django_stats.egg-info/

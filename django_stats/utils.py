@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import bisect
+
 class TimeSeries(object):
     def __init__(self, history=False):
         self.max = None
