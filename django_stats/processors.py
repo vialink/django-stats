@@ -3,10 +3,13 @@
 from .utils import TimeSeries
 
 class RequestByViewProcessor(object):
-    def __init__(self):
+    def __init__(self, since=None):
         self.data = {}
+        self.since = since
 
     def addline(self, line):
+        if self.since and line.time_local < self.since:
+            return
         key = (line.view.url_name, line.method, line.status)
         ts = self.data.get(key, None)
         if ts is None:
@@ -14,10 +17,12 @@ class RequestByViewProcessor(object):
             self.data[key] = ts
         ts.add(line.request_time)
 
-    def to_str(self):
+    def to_str(self, slow_threshold=None):
         a = self.data.items()
-        a.sort(key=lambda x: x[0])
+        a.sort(key=lambda x: (x[1].max, x[0]))
         for x in a:
+            if slow_threshold and x[1].max < slow_threshold:
+                continue
             print x[0], unicode(x[1])
             print '    [50%] {0}'.format(x[1].percentile(0.50))
             print '    [75%] {0}'.format(x[1].percentile(0.75))
